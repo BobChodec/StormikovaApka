@@ -1,0 +1,42 @@
+CREATE OR REPLACE PROCEDURE test_proc_complex IS
+    v_count NUMBER;
+    CURSOR c_test IS
+        SELECT id, popis FROM zakladni;
+   dbms_output.put_line('Provádím SELECT');
+BEGIN
+   dbms_output.put_line('>>> START PROCEDURE test_proc_complex');
+    -- Vložení záznamu
+    INSERT INTO zakladni (id, popis) VALUES (1, 'První záznam');
+   dbms_output.put_line('Provádím INSERT');
+
+    -- Aktualizace
+    UPDATE zakladni SET popis = 'Aktualizovaný záznam' WHERE id = 1;
+   dbms_output.put_line('Provádím UPDATE');
+
+    -- Vyhodnocení větve IF
+    SELECT COUNT(*) INTO v_count FROM zakladni;
+   dbms_output.put_line('Provádím SELECT');
+    IF v_count > 0 THEN
+   dbms_output.put_line('Vstup do IF větve');
+        NULL;
+    ELSE
+   dbms_output.put_line('Vstup do ELSE větve');
+        NULL;
+   dbms_output.put_line('<<< END PROCEDURE test_proc_complex');
+    END IF;
+
+    -- Procházení kurzoru
+    FOR rec IN c_test LOOP
+        NULL;
+    END LOOP;
+
+    -- Odstranění záznamu
+    DELETE FROM zakladni WHERE id = 1;
+   dbms_output.put_line('Provádím DELETE');
+
+EXCEPTION
+   dbms_output.put_line('>>> EXCEPTION BLOCK');
+    WHEN OTHERS THEN
+        NULL;
+END test_proc_complex;
+/
